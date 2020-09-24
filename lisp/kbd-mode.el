@@ -113,6 +113,17 @@ Default: t"
   '((t :inherit font-lock-string-face))
   "Face for strings")
 
+;;; Functions
+
+(defun kbd-mode--show-macros? (show-macros)
+  "Decide whether to highlight macros that are of the form
+`@MACRO-NAME'."
+  (let ((macro-regexp '(("\\(:?\\(@[^[:space:]]+\\)\\)"
+                         (1 'kbd-mode-variable-name-face)))))
+    (if show-macros
+        (font-lock-add-keywords 'kbd-mode macro-regexp)
+      (font-lock-remove-keywords 'kbd-mode macro-regexp))))
+
 ;;; Vars
 
 (defvar kbd-mode-syntax-table nil
@@ -174,13 +185,7 @@ For details, see `https://github.com/david-janssen/kmonad'."
 
   (set-syntax-table kbd-mode-syntax-table)
   (font-lock-add-keywords 'kbd-mode kbd-mode--font-lock-keywords)
-
-  ;; TODO: There *has* to be a better way of doing this
-  (let ((macro-regexp '(("\\(:?\\(@[^[:space:]]+\\)\\)"
-                         (1 'kbd-mode-variable-name-face)))))
-    (if kbd-mode-show-macros
-        (font-lock-add-keywords 'kbd-mode macro-regexp)
-      (font-lock-remove-keywords 'kbd-mode macro-regexp)))
+  (kbd-mode--show-macros? kbd-mode-show-macros)
 
   ;; HACK
   (defadvice redisplay (after refresh-font-locking activate)
