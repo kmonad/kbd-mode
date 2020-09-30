@@ -198,7 +198,7 @@ If SHOW-MACROS is nil, don't highlight macros of the form
        ("\"[^}]*?\""
         (progn (goto-char (match-beginning 0)) (match-end 0))
         (goto-char (match-end 0))
-        (0 font-lock-string-face t))))))
+        (0 'kbd-mode-string-face t))))))
 
 ;;; Define Major Mode
 
