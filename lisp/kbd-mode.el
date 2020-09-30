@@ -20,7 +20,7 @@
 ;;; Commentary:
 
 ;; This file adds basic font locking support for `.kbd' configuration files.  As
-;; the configuration language is a tiny lisp, we inherit from `lisp-mode' in
+;; the configuration language is a tiny Lisp, we inherit from `lisp-mode' in
 ;; order to get good parenthesis handling for free.
 
 ;; To use this file, move it to a directory within your `load-path' and require
@@ -54,14 +54,14 @@
 
 (defcustom kbd-mode-kexpr
   '("defcfg" "defsrc" "defalias")
-  "A K-Expression"
+  "A K-Expression."
   :type '(repeat string)
   :group 'kbd-highlight)
 
 ;; TODO: There's probably a nicer way to do this.
 (defcustom kbd-mode-function-one
   '("deflayer")
-  "Tokens that are treated as functions with one argument"
+  "Tokens that are treated as functions with one argument."
   :type '(repeat string)
   :group 'kbd-highlight)
 
@@ -70,13 +70,13 @@
     "uinput-sink" "send-event-sink" "kext"
     ;; output tokens
     "device-file" "low-level-hook" "iokit-name")
-  "Input and output tokens"
+  "Input and output tokens."
   :type '(repeat string)
   :group 'kbd-highlight)
 
 (defcustom kbd-mode-defcfg-options
   '("input" "output" "cmp-seq" "init" "fallthrough" "allow-cmd")
-  "Options to give to `defcfg'"
+  "Options to give to `defcfg'."
   :type '(repeat string)
   :group 'kbd-highlight)
 
@@ -85,14 +85,13 @@
     "tap-hold-next-release" "tap-next" "layer-toggle" "layer-switch"
     "layer-add" "layer-rem" "layer-delay" "layer-next" "around-next"
     "tap-macro" "cmd-button")
-  "Button modifiers"
+  "Button modifiers."
   :type '(repeat string)
   :group 'kbd-highlight)
 
 (defcustom kbd-mode-show-string
   '("uinput-sink" "device-file" "cmd-button")
-  "Syntax highlight strings in the S-expressions defined by these
-keywords"
+  "Syntax highlight strings in the S-expressions defined by these keywords."
   :type '(repeat string)
   :group 'kbd-highlight)
 
@@ -141,8 +140,9 @@ Default: t"
 ;;; Functions
 
 (defun kbd-mode--show-macros? (show-macros)
-  "Decide whether to highlight macros that are of the form
-`@MACRO-NAME'."
+  "Decide whether to highlight macros.
+If SHOW-MACROS is nil, don't highlight macros of the form
+`@MACRO-NAME' (e.g. in a `deflayer' expression)."
   (let ((macro-regexp '(("\\(:?\\(@[^[:space:]]+\\)\\)"
                          (1 'kbd-mode-variable-name-face)))))
     (if show-macros
@@ -152,7 +152,7 @@ Default: t"
 ;;; Vars
 
 (defvar kbd-mode-syntax-table nil
-  "Use ;; for regular comments and #| |# for line comments")
+  "Use ;; for regular comments and #| |# for line comments.")
 (setq kbd-mode-syntax-table
   (let ((table (make-syntax-table)))
     ;; Comments.
@@ -170,7 +170,7 @@ Default: t"
     table))
 
 (defvar kbd-mode--font-lock-keywords nil
-  "Keywords to be syntax highlighted")
+  "Keywords to be syntax highlighted.")
 (setq kbd-mode--font-lock-keywords
   (let ((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
         (token-regexp            (regexp-opt kbd-mode-tokens           'words))
