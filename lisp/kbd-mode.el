@@ -42,18 +42,28 @@
 
 ;;; Code:
 
+(defgroup kbd nil
+  "Major mode for editing `.kbd' files."
+  :group 'languages)
+
 ;;; Custom variables
+
+(defgroup kbd-highlight nil
+  "Syntax highlighting for `kbd-mode'."
+  :group 'kbd)
 
 (defcustom kbd-mode-kexpr
   '("defcfg" "defsrc" "defalias")
   "A K-Expression"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'kbd-highlight)
 
 ;; TODO: There's probably a nicer way to do this.
 (defcustom kbd-mode-function-one
   '("deflayer")
   "Tokens that are treated as functions with one argument"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'kbd-highlight)
 
 (defcustom kbd-mode-tokens
   '(;; input tokens
@@ -61,12 +71,14 @@
     ;; output tokens
     "device-file" "low-level-hook" "iokit-name")
   "Input and output tokens"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'kbd-highlight)
 
 (defcustom kbd-mode-defcfg-options
   '("input" "output" "cmp-seq" "init" "fallthrough" "allow-cmd")
   "Options to give to `defcfg'"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'kbd-highlight)
 
 (defcustom kbd-mode-button-modifiers
   '("around" "multi-tap" "tap-hold" "tap-hold-next" "tap-next-release"
@@ -74,44 +86,57 @@
     "layer-add" "layer-rem" "layer-delay" "layer-next" "around-next"
     "tap-macro" "cmd-button")
   "Button modifiers"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'kbd-highlight)
 
 (defcustom kbd-mode-show-string
   '("uinput-sink" "device-file" "cmd-button")
   "Syntax highlight strings in the S-expressions defined by these
 keywords"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'kbd-highlight)
 
 (defcustom kbd-mode-show-macros t
   "Whether to syntax highlight macros inside layout definitions.
 Default: t"
-  :type 'boolean)
+  :type 'boolean
+  :group 'kbd-highlight)
 
 ;;; Faces
 
+(defgroup kbd-highlight-faces nil
+  "Faces used for highlighting in `kbd-mode'."
+  :group 'kbd-highlight)
+
 (defface kbd-mode-kexpr-face
   '((t :inherit font-lock-keyword-face))
-  "Face for a K-Expression")
+  "Face for a K-Expression"
+  :group 'kbd-highlight-faces)
 
 (defface kbd-mode-token-face
   '((t :inherit font-lock-function-name-face))
-  "Face for input and output tokens")
+  "Face for input and output tokens"
+  :group 'kbd-highlight-faces)
 
 (defface kbd-mode-defcfg-option-face
   '((t :inherit font-lock-builtin-face))
-  "Face for options one may give to `defcfg'")
+  "Face for options one may give to `defcfg'"
+  :group 'kbd-highlight-faces)
 
 (defface kbd-mode-button-modifier-face
   '((t :inherit font-lock-function-name-face))
-  "Face for all the button modifiers")
+  "Face for all the button modifiers"
+  :group 'kbd-highlight-faces)
 
 (defface kbd-mode-variable-name-face
   '((t :inherit font-lock-variable-name-face))
-  "Face for a variables, i.e. layer names, macros in layers,...")
+  "Face for a variables, i.e. layer names, macros in layers,..."
+  :group 'kbd-highlight-faces)
 
 (defface kbd-mode-string-face
   '((t :inherit font-lock-string-face))
-  "Face for strings")
+  "Face for strings"
+  :group 'kbd-highlight-faces)
 
 ;;; Functions
 
