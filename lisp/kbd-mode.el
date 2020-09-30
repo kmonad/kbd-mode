@@ -1,7 +1,7 @@
-;;; kbd-mode.el --- Font locking for kmonad's .kbd files. -*- lexical-binding: t -*-
+;;; kbd-mode.el --- Font locking for kmonad's .kbd files -*- lexical-binding: t -*-
 
 ;; Copyright 2020  slotThe
-;; URL: https://github.com/david-janssen/kmonad
+;; URL: https://github.com/slotThe/kbd-mode
 ;; Version: 0.0.1
 
 ;; This file is free software; you can redistribute it and/or modify
