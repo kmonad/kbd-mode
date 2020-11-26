@@ -19,13 +19,13 @@
 
 ;;; Commentary:
 
-;; This file adds basic font locking support for `.kbd' configuration files.  As
-;; the configuration language is a tiny Lisp, we inherit from `lisp-mode' in
-;; order to get good parenthesis handling for free.
+;; This file adds basic font locking support for `.kbd' configuration
+;; files.  As the configuration language is a tiny Lisp, we inherit from
+;; `lisp-mode' in order to get good parenthesis handling for free.
 
-;; To use this file, move it to a directory within your `load-path' and require
-;; it.  For example --- assuming that this file was placed within the
-;; `~/.config/emacs/elisp' directory:
+;; To use this file, move it to a directory within your `load-path' and
+;; require it.  For example --- assuming that this file was placed
+;; within the `~/.config/emacs/elisp' directory:
 ;;
 ;;     (add-to-list 'load-path "~/.config/emacs/elisp/")
 ;;     (require 'kbd-mode)
@@ -35,10 +35,10 @@
 ;;     (use-package kbd-mode
 ;;       :load-path "~/.config/emacs/elisp/")
 
-;; By default we highlight all keywords; you can change this by customizing the
-;; `kbd-mode-' variables.  For example, to disable the highlighting of already
-;; defined macros (i.e. of "@macro-name"), you can set `kbd-mode-show-macros' to
-;; `nil'.
+;; By default we highlight all keywords; you can change this by
+;; customizing the `kbd-mode-' variables.  For example, to disable the
+;; highlighting of already defined macros (i.e. of "@macro-name"), you
+;; can set `kbd-mode-show-macros' to `nil'.
 
 ;;; Code:
 
@@ -58,7 +58,7 @@
   :type '(repeat string)
   :group 'kbd-highlight)
 
-;; TODO: There's probably a nicer way to do this.
+;; HACK
 (defcustom kbd-mode-function-one
   '("deflayer")
   "Tokens that are treated as functions with one argument."
@@ -91,7 +91,9 @@
 
 (defcustom kbd-mode-show-string
   '("uinput-sink" "device-file" "cmd-button")
-  "Syntax highlight strings in the S-expressions defined by these keywords."
+  "Syntax highlight strings in S-expressions.
+When an S-expression begins with any of these keywords, highlight
+strings (delimited by double quotes) inside it."
   :type '(repeat string)
   :group 'kbd-highlight)
 
@@ -152,16 +154,17 @@ If SHOW-MACROS is nil, don't highlight macros of the form
 ;;; Vars
 
 (defvar kbd-mode-syntax-table nil
-  "Use ;; for regular comments and #| |# for line comments.")
+  "The basic syntax table for `kbd-mode'.")
 (setq kbd-mode-syntax-table
   (let ((table (make-syntax-table)))
-    ;; Comments.
+    ;; Use ;; for regular comments and #| |# for line comments.
     (modify-syntax-entry ?\; ". 12b" table)
     (modify-syntax-entry ?\n "> b"   table)
     (modify-syntax-entry ?\# ". 14"  table)
     (modify-syntax-entry ?\| ". 23"  table)
 
-    ;; We don't need to highlight brackets, as they're only used inside layouts.
+    ;; We don't need to highlight brackets, as they're only used inside
+    ;; layouts.
     (modify-syntax-entry ?\[ "."     table)
     (modify-syntax-entry ?\] "."     table)
 
@@ -180,8 +183,9 @@ If SHOW-MACROS is nil, don't highlight macros of the form
          (concat "\\(?:\\("
                  (regexp-opt kbd-mode-function-one)
                  "\\)\\([[:space:]]+[[:word:]]+\\)\\)"))
-        ;; Only highlight these strings; configuration files may use a single "
-        ;; to emit a quote, so we can't trust `lisp-mode's string highlighting.
+        ;; Only highlight these strings; configuration files may
+        ;; explicitly use a " to emit a double quote, so we can't trust
+        ;; the default string highlighting.
         (string-regexp
          (concat "\\(['\(]"
                  (regexp-opt kbd-mode-show-string)
