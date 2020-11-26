@@ -203,7 +203,7 @@ If SHOW-MACROS is nil, don't highlight macros of the form
 ;;; Define Major Mode
 
 ;;;###autoload
-(define-derived-mode kbd-mode lisp-mode "Kbd"
+(define-derived-mode kbd-mode emacs-lisp-mode "Kbd"
   "Major mode for editing `.kbd' files.
 
 For details, see `https://github.com/david-janssen/kmonad'."
