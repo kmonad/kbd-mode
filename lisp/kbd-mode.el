@@ -174,35 +174,36 @@ If SHOW-MACROS is nil, don't highlight macros of the form
 
 (defvar kbd-mode--font-lock-keywords nil
   "Keywords to be syntax highlighted.")
-(setq kbd-mode--font-lock-keywords
-  (let ((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
-        (token-regexp            (regexp-opt kbd-mode-tokens           'words))
-        (defcfg-options-regexp   (regexp-opt kbd-mode-defcfg-options   'words))
-        (button-modifiers-regexp (regexp-opt kbd-mode-button-modifiers 'words))
-        (function-one-regexp
-         (concat "\\(?:\\("
-                 (regexp-opt kbd-mode-function-one)
-                 "\\)\\([[:space:]]+[[:word:]]+\\)\\)"))
-        ;; Only highlight these strings; configuration files may
-        ;; explicitly use a " to emit a double quote, so we can't trust
-        ;; the default string highlighting.
-        (string-regexp
-         (concat "\\(['\(]"
-                 (regexp-opt kbd-mode-show-string)
-                 "\\)\\(\\S)+\\)\)")))
+(setq
+ kbd-mode--font-lock-keywords
+ (let ((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
+       (token-regexp            (regexp-opt kbd-mode-tokens           'words))
+       (defcfg-options-regexp   (regexp-opt kbd-mode-defcfg-options   'words))
+       (button-modifiers-regexp (regexp-opt kbd-mode-button-modifiers 'words))
+       (function-one-regexp
+        (concat "\\(?:\\("
+                (regexp-opt kbd-mode-function-one)
+                "\\)\\([[:space:]]+[[:word:]]+\\)\\)"))
+       ;; Only highlight these strings; configuration files may
+       ;; explicitly use a " to emit a double quote, so we can't trust
+       ;; the default string highlighting.
+       (string-regexp
+        (concat "\\(['\(]"
+                (regexp-opt kbd-mode-show-string)
+                "\\)\\(\\S)+\\)\)")))
 
-    `((,token-regexp            (1 'kbd-mode-token-face          ))
-      (,kexpr-regexp            (1 'kbd-mode-kexpr-face          ))
-      (,button-modifiers-regexp (1 'kbd-mode-button-modifier-face))
-      (,defcfg-options-regexp   (1 'kbd-mode-defcfg-option-face  ))
-      (,function-one-regexp
-       (1 'kbd-mode-kexpr-face        )
-       (2 'kbd-mode-variable-name-face))
-      (,string-regexp
-       ("\"[^}]*?\""
-        (progn (goto-char (match-beginning 0)) (match-end 0))
-        (goto-char (match-end 0))
-        (0 'kbd-mode-string-face t))))))
+   `((,token-regexp            (1 'kbd-mode-token-face          ))
+     (,kexpr-regexp            (1 'kbd-mode-kexpr-face          ))
+     (,button-modifiers-regexp (1 'kbd-mode-button-modifier-face))
+     (,defcfg-options-regexp   (1 'kbd-mode-defcfg-option-face  ))
+     (,function-one-regexp
+      (1 'kbd-mode-kexpr-face        )
+      (2 'kbd-mode-variable-name-face))
+     (,string-regexp
+      ("\"[^}]*?\""
+       (progn (goto-char (match-beginning 0)) (match-end 0))
+       (goto-char (match-end 0))
+       (0 'kbd-mode-string-face t))))))
 
 ;;; Define Major Mode
 
