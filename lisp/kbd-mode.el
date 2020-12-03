@@ -20,8 +20,7 @@
 ;;; Commentary:
 
 ;; This file adds basic font locking support for `.kbd' configuration
-;; files.  As the configuration language is a tiny Lisp, we inherit from
-;; `lisp-mode' in order to get good parenthesis handling for free.
+;; files.
 
 ;; To use this file, move it to a directory within your `load-path' and
 ;; require it.  For example --- assuming that this file was placed
@@ -206,6 +205,10 @@ If SHOW-MACROS is nil, don't highlight macros of the form
        (0 'kbd-mode-string-face t))))))
 
 ;;; Define Major Mode
+
+;; Because the configuration language is a tiny subset of LISP, we can
+;; inherit from any LISP mode in order to get good parenthesis handling
+;; for free.
 
 ;;;###autoload
 (define-derived-mode kbd-mode emacs-lisp-mode "Kbd"
