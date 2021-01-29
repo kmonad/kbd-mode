@@ -152,24 +152,24 @@ If SHOW-MACROS is nil, don't highlight macros of the form
 
 ;;; Vars
 
-(defvar kbd-mode-syntax-table nil
-  "The basic syntax table for `kbd-mode'.")
-(setq kbd-mode-syntax-table
-  (let ((table (make-syntax-table)))
+(defvar kbd-mode-syntax-table
+  (let ((st (make-syntax-table)))
     ;; Use ;; for regular comments and #| |# for line comments.
-    (modify-syntax-entry ?\; ". 12b" table)
-    (modify-syntax-entry ?\n "> b"   table)
-    (modify-syntax-entry ?\# ". 14"  table)
-    (modify-syntax-entry ?\| ". 23"  table)
+    (modify-syntax-entry ?\; ". 12b" st)
+    (modify-syntax-entry ?\n "> b"   st)
+    (modify-syntax-entry ?\# ". 14"  st)
+    (modify-syntax-entry ?\| ". 23"  st)
 
     ;; We don't need to highlight brackets, as they're only used inside
     ;; layouts.
-    (modify-syntax-entry ?\[ "."     table)
-    (modify-syntax-entry ?\] "."     table)
+    (modify-syntax-entry ?\[ "."     st)
+    (modify-syntax-entry ?\] "."     st)
 
     ;; We highlight the necessary strings ourselves.
-    (modify-syntax-entry ?\" "."     table)
-    table))
+    (modify-syntax-entry ?\" "."     st)
+    st)
+  "The basic syntax table for `kbd-mode'.")
+
 
 (defvar kbd-mode--font-lock-keywords nil
   "Keywords to be syntax highlighted.")
