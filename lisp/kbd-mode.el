@@ -171,11 +171,8 @@ If SHOW-MACROS is nil, don't highlight macros of the form
   "The basic syntax table for `kbd-mode'.")
 
 
-(defvar kbd-mode--font-lock-keywords nil
-  "Keywords to be syntax highlighted.")
-(setq
- kbd-mode--font-lock-keywords
- (let ((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
+(defvar kbd-mode--font-lock-keywords
+  '(((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
        (token-regexp            (regexp-opt kbd-mode-tokens           'words))
        (defcfg-options-regexp   (regexp-opt kbd-mode-defcfg-options   'words))
        (button-modifiers-regexp (regexp-opt kbd-mode-button-modifiers 'words))
@@ -202,7 +199,8 @@ If SHOW-MACROS is nil, don't highlight macros of the form
       ("\"[^}]*?\""
        (progn (goto-char (match-beginning 0)) (match-end 0))
        (goto-char (match-end 0))
-       (0 'kbd-mode-string-face t))))))
+       (0 'kbd-mode-string-face t)))))
+    "Keywords to be syntax highlighted.")
 
 ;;; Define Major Mode
 
