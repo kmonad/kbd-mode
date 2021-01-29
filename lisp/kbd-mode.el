@@ -151,7 +151,7 @@ If SHOW-MACROS is nil, don't highlight macros of the form
       (font-lock-remove-keywords 'kbd-mode macro-regexp))))
 
 ;; How many times have it been done?
-(defun forward-symbol ()
+(defun backward-symbol ()
   "Like `forward-symbol' but backwards."
   (forward-symbol -1))
 
