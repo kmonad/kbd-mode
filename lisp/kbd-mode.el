@@ -174,7 +174,8 @@ If SHOW-MACROS is nil, don't highlight macros of the form
   (let ((map (make-sparse-keymap)))
     ;; We want to M-{f/b} on any layout entry, not just on alphabet ;)
     (define-key map "\M-f" 'forward-symbol)
-    (define-key map "\M-b" 'backward-symbol)
+    ;; Haha, no backward-symbol xD
+    (define-key map "\M-b" '(forward-symbol -1))
     map)
   "Keymap for .kbd buffers.")
 
