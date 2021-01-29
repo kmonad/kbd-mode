@@ -170,6 +170,13 @@ If SHOW-MACROS is nil, don't highlight macros of the form
     st)
   "The basic syntax table for `kbd-mode'.")
 
+(defvar kbd-mode-map
+  (let ((map (make-sparse-keymap)))
+    ;; We want to M-{f/b} on any layout entry, not just on alphabet ;)
+    (define-key map "\M-f" 'forward-symbol)
+    (define-key map "\M-b" 'backward-symbol)
+    map)
+  "Keymap for .kbd buffers.")
 
 (defvar kbd-mode--font-lock-keywords
   '(((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
