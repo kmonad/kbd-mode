@@ -83,7 +83,7 @@
   '("around" "multi-tap" "tap-hold" "tap-hold-next" "tap-next-release"
     "tap-hold-next-release" "tap-next" "layer-toggle" "layer-switch"
     "layer-add" "layer-rem" "layer-delay" "layer-next" "around-next"
-    "tap-macro" "cmd-button")
+    "tap-macro" "cmd-button" "around-next-single")
   "Button modifiers."
   :type '(repeat string)
   :group 'kbd-highlight)
