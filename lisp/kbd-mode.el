@@ -150,11 +150,6 @@ If SHOW-MACROS is nil, don't highlight macros of the form
         (font-lock-add-keywords 'kbd-mode macro-regexp)
       (font-lock-remove-keywords 'kbd-mode macro-regexp))))
 
-;; How many times have it been done?
-(defun backward-symbol ()
-  "Like `forward-symbol' but backwards."
-  (forward-symbol -1))
-
 ;;; Vars
 
 (defvar kbd-mode-syntax-table
@@ -174,15 +169,6 @@ If SHOW-MACROS is nil, don't highlight macros of the form
     (modify-syntax-entry ?\" "."     st)
     st)
   "The basic syntax table for `kbd-mode'.")
-
-(defvar kbd-mode-map
-  (let ((map (make-sparse-keymap)))
-    ;; We want to M-{f/b} on any layout entry, not just on alphabet ;)
-    (define-key map "\M-f" 'forward-symbol)
-    ;; Haha, no backward-symbol xD
-    (define-key map "\M-b" 'backward-symbol)
-    map)
-  "Keymap for .kbd buffers.")
 
 (defvar kbd-mode--font-lock-keywords
   '(((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
