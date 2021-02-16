@@ -159,47 +159,44 @@ If SHOW-MACROS is nil, don't highlight macros of the form
     (modify-syntax-entry ?\n "> b"   st)
     (modify-syntax-entry ?\# ". 14"  st)
     (modify-syntax-entry ?\| ". 23"  st)
-
     ;; We don't need to highlight brackets, as they're only used inside
     ;; layouts.
     (modify-syntax-entry ?\[ "."     st)
     (modify-syntax-entry ?\] "."     st)
-
     ;; We highlight the necessary strings ourselves.
     (modify-syntax-entry ?\" "."     st)
     st)
   "The basic syntax table for `kbd-mode'.")
 
 (defvar kbd-mode--font-lock-keywords
-  '(((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
-       (token-regexp            (regexp-opt kbd-mode-tokens           'words))
-       (defcfg-options-regexp   (regexp-opt kbd-mode-defcfg-options   'words))
-       (button-modifiers-regexp (regexp-opt kbd-mode-button-modifiers 'words))
-       (function-one-regexp
-        (concat "\\(?:\\("
-                (regexp-opt kbd-mode-function-one)
-                "\\)\\([[:space:]]+[[:word:]]+\\)\\)"))
-       ;; Only highlight these strings; configuration files may
-       ;; explicitly use a " to emit a double quote, so we can't trust
-       ;; the default string highlighting.
-       (string-regexp
-        (concat "\\(['\(]"
-                (regexp-opt kbd-mode-show-string)
-                "\\)\\(\\S)+\\)\)")))
-
-   `((,token-regexp            (1 'kbd-mode-token-face          ))
-     (,kexpr-regexp            (1 'kbd-mode-kexpr-face          ))
-     (,button-modifiers-regexp (1 'kbd-mode-button-modifier-face))
-     (,defcfg-options-regexp   (1 'kbd-mode-defcfg-option-face  ))
-     (,function-one-regexp
-      (1 'kbd-mode-kexpr-face        )
-      (2 'kbd-mode-variable-name-face))
-     (,string-regexp
-      ("\"[^}]*?\""
-       (progn (goto-char (match-beginning 0)) (match-end 0))
-       (goto-char (match-end 0))
-       (0 'kbd-mode-string-face t)))))
-    "Keywords to be syntax highlighted.")
+  (let ((kexpr-regexp            (regexp-opt kbd-mode-kexpr            'words))
+        (token-regexp            (regexp-opt kbd-mode-tokens           'words))
+        (defcfg-options-regexp   (regexp-opt kbd-mode-defcfg-options   'words))
+        (button-modifiers-regexp (regexp-opt kbd-mode-button-modifiers 'words))
+        (function-one-regexp
+         (concat "\\(?:\\("
+                 (regexp-opt kbd-mode-function-one)
+                 "\\)\\([[:space:]]+[[:word:]]+\\)\\)"))
+        ;; Only highlight these strings; configuration files may explicitly
+        ;; use a " to emit a double quote, so we can't trust the default
+        ;; string highlighting.
+        (string-regexp
+         (concat "\\(['\(]"
+                 (regexp-opt kbd-mode-show-string)
+                 "\\)\\(\\S)+\\)\)")))
+    `((,token-regexp            (1 'kbd-mode-token-face          ))
+      (,kexpr-regexp            (1 'kbd-mode-kexpr-face          ))
+      (,button-modifiers-regexp (1 'kbd-mode-button-modifier-face))
+      (,defcfg-options-regexp   (1 'kbd-mode-defcfg-option-face  ))
+      (,function-one-regexp
+       (1 'kbd-mode-kexpr-face        )
+       (2 'kbd-mode-variable-name-face))
+      (,string-regexp
+       ("\"[^}]*?\""
+        (progn (goto-char (match-beginning 0)) (match-end 0))
+        (goto-char (match-end 0))
+        (0 'kbd-mode-string-face t)))))
+  "Keywords to be syntax highlighted.")
 
 ;;; Define Major Mode
 
@@ -212,11 +209,9 @@ If SHOW-MACROS is nil, don't highlight macros of the form
   "Major mode for editing `.kbd' files.
 
 For details, see `https://github.com/david-janssen/kmonad'."
-
   (set-syntax-table kbd-mode-syntax-table)
   (font-lock-add-keywords 'kbd-mode kbd-mode--font-lock-keywords)
   (kbd-mode--show-macros? kbd-mode-show-macros)
-
   ;; HACK
   (defadvice redisplay (after refresh-font-locking activate)
     (when (derived-mode-p 'kbd-mode)
