@@ -24,3 +24,6 @@ If you use `use-package`, you can express the above as
 (use-package kbd-mode
   :load-path "~/.config/emacs/elisp/")
 ```
+
+## GNU Guix
+```guix install emacs-kbd```
