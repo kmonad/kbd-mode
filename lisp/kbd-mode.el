@@ -74,7 +74,7 @@
   :group 'kbd-highlight)
 
 (defcustom kbd-mode-defcfg-options
-  '("input" "output" "cmp-seq" "init" "fallthrough" "allow-cmd")
+  '("input" "output" "cmp-seq-delay" "cmp-seq" "init" "fallthrough" "allow-cmd")
   "Options to give to `defcfg'."
   :type '(repeat string)
   :group 'kbd-highlight)
