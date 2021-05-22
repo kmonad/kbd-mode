@@ -110,22 +110,22 @@ Default: t"
 
 (defface kbd-mode-kexpr-face
   '((t :inherit font-lock-keyword-face))
-  "Face for a K-Expression"
+  "Face for a K-Expression."
   :group 'kbd-highlight-faces)
 
 (defface kbd-mode-token-face
   '((t :inherit font-lock-function-name-face))
-  "Face for input and output tokens"
+  "Face for input and output tokens."
   :group 'kbd-highlight-faces)
 
 (defface kbd-mode-defcfg-option-face
   '((t :inherit font-lock-builtin-face))
-  "Face for options one may give to `defcfg'"
+  "Face for options one may give to `defcfg'."
   :group 'kbd-highlight-faces)
 
 (defface kbd-mode-button-modifier-face
   '((t :inherit font-lock-function-name-face))
-  "Face for all the button modifiers"
+  "Face for all the button modifiers."
   :group 'kbd-highlight-faces)
 
 (defface kbd-mode-variable-name-face
@@ -135,7 +135,7 @@ Default: t"
 
 (defface kbd-mode-string-face
   '((t :inherit font-lock-string-face))
-  "Face for strings"
+  "Face for strings."
   :group 'kbd-highlight-faces)
 
 ;;; Functions
