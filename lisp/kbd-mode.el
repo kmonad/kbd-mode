@@ -3,6 +3,7 @@
 ;; Copyright 2020  slotThe
 ;; URL: https://github.com/slotThe/kbd-mode
 ;; Version: 0.0.1
+;; Package-Requires: ((emacs "24.1"))
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
