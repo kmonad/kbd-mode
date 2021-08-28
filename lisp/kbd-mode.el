@@ -1,7 +1,7 @@
 ;;; kbd-mode.el --- Font locking for kmonad's .kbd files -*- lexical-binding: t -*-
 
 ;; Copyright 2020  slotThe
-;; URL: https://github.com/slotThe/kbd-mode
+;; URL: https://github.com/kmonad/kbd-mode
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.1"))
 
@@ -209,7 +209,7 @@ If SHOW-MACROS is nil, don't highlight macros of the form
 (define-derived-mode kbd-mode emacs-lisp-mode "Kbd"
   "Major mode for editing `.kbd' files.
 
-For details, see `https://github.com/david-janssen/kmonad'."
+For details, see `https://github.com/kmonad/kmonad'."
   (set-syntax-table kbd-mode-syntax-table)
   (font-lock-add-keywords 'kbd-mode kbd-mode--font-lock-keywords)
   (kbd-mode--show-macros? kbd-mode-show-macros)
