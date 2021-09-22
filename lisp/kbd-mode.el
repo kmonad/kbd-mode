@@ -142,9 +142,9 @@ Default: t"
 ;;; Functions
 
 (defun kbd-mode--show-macros? (show-macros)
-  "Decide whether to highlight macros.
-If SHOW-MACROS is nil, don't highlight macros of the form
-`@MACRO-NAME' (e.g. in a `deflayer' expression)."
+  "Decide whether to font-lock macros.
+If the argument SHOW-MACROS is non-nil, font-lock macros of the
+form `@MACRO-NAME' with `kbd-mode-variable-name-face'."
   (let ((macro-regexp '(("\\(:?\\(@[^[:space:]]+\\)\\)"
                          (1 'kbd-mode-variable-name-face)))))
     (if show-macros
@@ -201,8 +201,8 @@ If SHOW-MACROS is nil, don't highlight macros of the form
 
 ;;; Define Major Mode
 
-;; Because the configuration language is a tiny subset of LISP, we can
-;; inherit from any LISP mode in order to get good parenthesis handling
+;; Because the configuration language is in a lispy syntax, we can
+;; inherit from any lisp mode in order to get good parenthesis handling
 ;; for free.
 
 ;;;###autoload
