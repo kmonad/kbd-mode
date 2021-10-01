@@ -25,5 +25,17 @@ If you use `use-package`, you can express the above as
   :load-path "~/.config/emacs/elisp/")
 ```
 
+If you use [Spacemacs](https://develop.spacemacs.org), add the following
+in the `dotspacemacs-additional-packages` section:
+
+``` emacs-lisp
+(kbd-mode
+ :location
+ (recipe
+  :fetcher github
+  :repo "kmonad/kbd-mode"
+  :files ("lisp/*.el")))
+```
+
 ## GNU Guix
 ```guix install emacs-kbd```
