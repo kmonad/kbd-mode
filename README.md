@@ -32,8 +32,7 @@ If you use [Spacemacs], add the following in the
  :location
  (recipe
   :fetcher github
-  :repo "kmonad/kbd-mode"
-  :files ("lisp/*.el")))
+  :repo "kmonad/kbd-mode"))
 ```
 
 ## GNU Guix
