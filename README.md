@@ -35,6 +35,19 @@ If you use [Spacemacs], add the following in the
   :repo "kmonad/kbd-mode"))
 ```
 
+If you use [Doom Emacs], add the followings in the
+`packages.el` and `config.el` respectively.
+
+``` emacs-lisp
+(package! kbd-mode
+  :recipe (:host github
+           :repo "kmonad/kbd-mode"))
+```
+
+``` emacs-lisp
+(use-package! kbd-mode)
+```
+
 ## GNU Guix
 
 On Guix, kbd-mode can be installed via `guix install`:
@@ -46,3 +59,4 @@ $ guix install emacs-kbd
 [kmonad's]: https://github.com/david-janssen/kmonad
 [Spacemacs]: https://develop.spacemacs.org
 [use-package]: https://github.com/jwiegley/use-package
+[Doom Emacs]: https://github.com/hlissner/doom-emacs
