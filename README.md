@@ -32,6 +32,18 @@ If you use [use-package], you can express the above as
   :load-path "~/.config/emacs/elisp/")
 ```
 
+## Quelpa
+
+If you use [quelpa] and [quelpa-use-package], you can install directly
+from its repository:
+
+``` emacs-lisp
+(use-package kbd-mode
+  :quelpa (kbd-mode :fetcher github :repo "kmonad/kbd-mode")
+  :mode "\\.kbd\\'"
+  :commands kbd-mode)
+```
+
 ## Spacemacs
 
 If you use [Spacemacs], add the following in the
@@ -68,10 +80,12 @@ On Guix, kbd-mode can be installed via `guix install`:
 $ guix install emacs-kbd
 ```
 
-[kmonad]: https://github.com/kmonad/kmonad
-[Spacemacs]: https://develop.spacemacs.org
-[use-package]: https://github.com/jwiegley/use-package
 [Doom Emacs]: https://github.com/hlissner/doom-emacs
+[Spacemacs]: https://develop.spacemacs.org
+[kmonad]: https://github.com/kmonad/kmonad
+[quelpa-use-package]: https://github.com/quelpa/quelpa-use-package
+[quelpa]: https://github.com/quelpa/quelpa
+[use-package]: https://github.com/jwiegley/use-package
 
 # Demo Mode
 
