@@ -32,6 +32,8 @@ If you use [use-package], you can express the above as
   :load-path "~/.config/emacs/elisp/")
 ```
 
+## Spacemacs
+
 If you use [Spacemacs], add the following in the
 `dotspacemacs-additional-packages` section:
 
@@ -42,6 +44,8 @@ If you use [Spacemacs], add the following in the
   :fetcher github
   :repo "kmonad/kbd-mode"))
 ```
+
+## Doom Emacs
 
 If you use [Doom Emacs], add the followings in the `packages.el` and
 `config.el` respectively.
