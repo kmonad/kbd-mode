@@ -14,6 +14,32 @@ We provide the following additional keybindings
 
 # Installation
 
+## `package-vc`
+
+If you are on Emacs 29 and newer,
+you can use `package-vc-install`:
+
+``` emacs-lisp
+(package-vc-install
+ '(kbd-mode . (:url "https://github.com/kmonad/kbd-mode")))
+```
+
+[vc-use-package] provides [use-package] integration,
+if that's your thing.
+
+``` emacs-lisp
+(use-package kbd-mode
+  :vc (:fetcher github :repo kmonad/kbd-mode))
+```
+
+Alternatively, if you're on Emacs 30,
+a `:vc` keyword is built into use-package:
+
+``` emacs-lisp
+(use-package kbd-mode
+  :vc (:url "https://github.com/kmonad/kbd-mode" :rev :newest))
+```
+
 ## Manually
 
 Copy `kbd-mode.el` into a directory within your `load-path` and require
@@ -86,6 +112,7 @@ $ guix install emacs-kbd
 [quelpa-use-package]: https://github.com/quelpa/quelpa-use-package
 [quelpa]: https://github.com/quelpa/quelpa
 [use-package]: https://github.com/jwiegley/use-package
+[vc-use-package]: https://github.com/slotThe/vc-use-package
 
 # Demo Mode
 
