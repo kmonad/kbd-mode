@@ -176,7 +176,7 @@ given command upon exiting `kbd-mode-demo-mode'."
 
 ;;;; Functions
 
-(defun kbd-mode--show-macros? (show-macros)
+(defun kbd-mode--show-macros-p (show-macros)
   "Decide whether to font-lock macros.
 If the argument SHOW-MACROS is non-nil, font-lock macros of the
 form `@MACRO-NAME' with `kbd-mode-variable-name-face'."
@@ -254,7 +254,7 @@ For details, see `https://github.com/kmonad/kmonad'."
   (set-syntax-table kbd-mode-syntax-table)
   (use-local-map kbd-mode-map)
   (font-lock-add-keywords 'kbd-mode kbd-mode--font-lock-keywords)
-  (kbd-mode--show-macros? kbd-mode-show-macros)
+  (kbd-mode--show-macros-p kbd-mode-show-macros)
   ;; HACK
   (defadvice redisplay (after refresh-font-locking activate)
     (when (derived-mode-p 'kbd-mode)
