@@ -1,9 +1,9 @@
-;;; kbd-mode.el --- Font locking for kmonad's .kbd files -*- lexical-binding: t -*-
+;;; kbd-mode.el --- Major mode for kmonad's .kbd files -*- lexical-binding: t -*-
 
-;; Copyright 2020–2022  slotThe
+;; Copyright 2020–2024  Tony Zorman
 ;; URL: https://github.com/kmonad/kbd-mode
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "24.4"))
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -22,18 +22,6 @@
 
 ;; This file adds basic font locking support for `.kbd' configuration
 ;; files.
-;;
-;; To use this file, move it to a directory within your `load-path' and
-;; require it.  For example --- assuming that this file was placed
-;; within the `~/.config/emacs/elisp' directory:
-;;
-;;     (add-to-list 'load-path "~/.config/emacs/elisp/")
-;;     (require 'kbd-mode)
-;;
-;; If you use `use-package', you can express the above as
-;;
-;;     (use-package kbd-mode
-;;       :load-path "~/.config/emacs/elisp/")
 ;;
 ;; By default we highlight all keywords; you can change this by
 ;; customizing the `kbd-mode-' variables.  For example, to disable the
@@ -55,15 +43,17 @@
   "A minor mode to test your configuration."
   :group 'kbd)
 
-;;;; Custom variables
-
 (defgroup kbd-highlight nil
   "Syntax highlighting for `kbd-mode'."
   :group 'kbd)
 
+;;;; Custom variables
+
 (defcustom kbd-mode-kexpr
   '("defcfg" "defsrc" "defalias")
-  "A K-Expression."
+  "A top-level expression.
+Corresponds to a KExpr constructor, save for the default layer; see
+`kbd-mode-function-one'."
   :type '(repeat string)
   :group 'kbd-highlight)
 
@@ -107,8 +97,7 @@ strings (delimited by double quotes) inside it."
   :group 'kbd-highlight)
 
 (defcustom kbd-mode-show-macros t
-  "Whether to syntax highlight macros inside layout definitions.
-Default: t"
+  "Whether to syntax highlight macros inside layout definitions."
   :type 'boolean
   :group 'kbd-highlight)
 
@@ -116,9 +105,7 @@ Default: t"
   "Whether to enable magic focus.
 Whenever the `kbd-mode-demo-mode' buffer gets focused,
 automatically start try to start a new process for the config
-file.  When switching back to the config file, kill that process.
-
-Default: nil"
+file.  When switching back to the config file, kill that process."
   :type 'boolean
   :group 'kbd-demo)
 
@@ -254,11 +241,12 @@ For details, see `https://github.com/kmonad/kmonad'."
   (set-syntax-table kbd-mode-syntax-table)
   (use-local-map kbd-mode-map)
   (font-lock-add-keywords 'kbd-mode kbd-mode--font-lock-keywords)
-  (kbd-mode--show-macros-p kbd-mode-show-macros)
-  ;; HACK
-  (defadvice redisplay (after refresh-font-locking activate)
-    (when (derived-mode-p 'kbd-mode)
-      (font-lock-fontify-buffer))))
+  (kbd-mode--show-macros? kbd-mode-show-macros))
+
+;; HACK
+(defadvice redisplay (after refresh-font-locking activate)
+  (when (derived-mode-p 'kbd-mode)
+    (font-lock-fontify-buffer)))
 
 ;; Associate the `.kbd' ending with `kbd-mode'.
 ;;;###autoload
@@ -288,12 +276,9 @@ This controls whether kmonad will be restarted by mean of
 This is a minor mode, in which users can test their
 configurations."
   :lighter " kbd-demo"
-  :keymap kbd-mode-demo-mode-map
-
   (when kbd-mode-demo-mode
     (unless (kbd-mode--valid-config?)
       (kbd-mode--show-error)))
-
   ;; Handle toggle
   (when kbd-mode-magic-focus
     (cond (kbd-mode-demo-mode
@@ -318,7 +303,7 @@ be shown instead."
         (kbd-mode--find-kbd-file (buffer-file-name (current-buffer))))
   (if (not (kbd-mode--valid-config?))
       (kbd-mode--show-error)
-    (when (shell-command "ps -C kmonad")
+    (when (= 0 (call-process "ps" nil nil nil "-C" "kmonad"))
       (setq kbd-mode-had-kmonad? t)
       (kbd-mode--kill-kmonad))
     (kbd-mode--create-demo-buffer)
@@ -393,11 +378,7 @@ The command used to start kmonad is given by the
   (if kbd-mode-kill-kmonad
       (call-process-shell-command
        ;; Force the command to be executed asynchronously.
-       (if (eq (aref kbd-mode-start-kmonad
-                     (1- (length kbd-mode-start-kmonad)))
-               ?&)
-           kbd-mode-start-kmonad
-         (concat kbd-mode-start-kmonad "&")))
+       (concat (string-remove-prefix "&" kbd-mode-start-kmonad) "&"))
     (error "To restart kmonad, customize the `kbd-mode-start-kmonad' variable!")))
 
 (defun kbd-mode--toggle-demo (&optional _window)
@@ -418,8 +399,8 @@ instance and spawn a demo process."
 
 (defun kbd-mode--was-demo? ()
   "Was the previous buffer the kmonad demo buffer?"
-  (equal (window-buffer (previous-window))
-         (get-buffer "*kmonad-demo*")))
+  (eq (window-buffer (previous-window))
+      (get-buffer "*kmonad-demo*")))
 
 (defun kbd-mode--show-error ()
   "Show configuration errors in a compilation buffer."
