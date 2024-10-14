@@ -241,7 +241,7 @@ For details, see `https://github.com/kmonad/kmonad'."
   (set-syntax-table kbd-mode-syntax-table)
   (use-local-map kbd-mode-map)
   (font-lock-add-keywords 'kbd-mode kbd-mode--font-lock-keywords)
-  (kbd-mode--show-macros? kbd-mode-show-macros))
+  (kbd-mode--show-macros-p kbd-mode-show-macros))
 
 ;; HACK
 (defadvice redisplay (after refresh-font-locking activate)
