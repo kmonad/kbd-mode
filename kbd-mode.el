@@ -244,7 +244,29 @@ For details, see `https://github.com/kmonad/kmonad'."
   (kbd-mode--show-macros-p kbd-mode-show-macros))
 
 ;; HACK
+;;
+;; When specifying the keyboard layout, the configuration language accepts
+;; most special symbols verbatim (as in, one can just write @ to have that
+;; symbol bound to a key).  This includes " for double quotes, meaning the
+;; highlighting of strings has to be taken care of by the mode, which produces
+;; inconsistent behaviour, especially when moving things around.  For example,
+;; going from
+;;
+;;     (f "string")
+;;
+;; to
+;;
+;;     (f
+;;      "string")
+;;
+;; would "unhighlight" the string until one refreshes the syntax highlighting
+;; for the buffer via e.g. `font-lock-update', or wait until this happens by
+;; itself.  The advice is nothing more than a band-aid such that the latter
+;; happens more often.
 (defadvice redisplay (after refresh-font-locking activate)
+  "Redisplay more often.
+This accommodates for example double quotes which are keycodes in
+KMonad."
   (when (derived-mode-p 'kbd-mode)
     (font-lock-fontify-buffer)))
 
