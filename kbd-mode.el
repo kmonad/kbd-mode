@@ -1,6 +1,6 @@
 ;;; kbd-mode.el --- Major mode for kmonad's .kbd files -*- lexical-binding: t -*-
 
-;; Copyright 2020–2024  Tony Zorman
+;; Copyright 2020–2025  Tony Zorman
 ;; URL: https://github.com/kmonad/kbd-mode
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.4"))
@@ -74,14 +74,14 @@ Corresponds to a KExpr constructor, save for the default layer; see
   :group 'kbd-highlight)
 
 (defcustom kbd-mode-defcfg-options
-  '("input" "output" "cmp-seq-delay" "cmp-seq" "init" "fallthrough" "allow-cmd")
+  '("input" "output" "key-seq-delay" "cmp-seq-delay" "cmp-seq" "init" "fallthrough" "allow-cmd")
   "Options to give to `defcfg'."
   :type '(repeat string)
   :group 'kbd-highlight)
 
 (defcustom kbd-mode-button-modifiers
   '("around-next-timeout" "around-next-single" "around-next" "around"
-    "tap-hold-next-release" "tap-hold-next" "tap-next-release" "tap-hold"
+    "tap-hold-next-release" "tap-hold-next-press" "tap-hold-next" "tap-next-release" "tap-hold"
     "tap-macro-release" "tap-macro" "multi-tap" "tap-next" "layer-toggle"
     "layer-switch" "layer-add" "layer-rem" "layer-delay" "layer-next" "cmd-button")
   "Button modifiers."
