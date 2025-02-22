@@ -3,7 +3,7 @@
 ;; Copyright 2020–2025  Tony Zorman
 ;; URL: https://github.com/kmonad/kbd-mode
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "25.1"))
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -268,7 +268,7 @@ For details, see `https://github.com/kmonad/kmonad'."
 This accommodates for example double quotes which are keycodes in
 KMonad."
   (when (derived-mode-p 'kbd-mode)
-    (font-lock-fontify-buffer)))
+    (font-lock-ensure)))
 
 ;; Associate the `.kbd' ending with `kbd-mode'.
 ;;;###autoload
