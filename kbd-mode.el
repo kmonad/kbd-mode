@@ -1,6 +1,6 @@
 ;;; kbd-mode.el --- Major mode for kmonad's .kbd files -*- lexical-binding: t -*-
 
-;; Copyright 2020–2025  Tony Zorman
+;; Copyright 2020–2026  Tony Zorman
 ;; URL: https://github.com/kmonad/kbd-mode
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "25.1"))
@@ -219,7 +219,14 @@ form `@MACRO-NAME' with `kbd-mode-variable-name-face'."
        (2 'kbd-mode-variable-name-face))
       (,string-regexp
        ("\"[^}]*?\""
-        (progn (goto-char (match-beginning 0)) (match-end 0))
+        (progn
+          ;; Mark single-line forms as multiline: if an edit splits it across
+          ;; lines, font-lock must highlight the string, because kmonad config
+          ;; files are allowed to contain literal "'s.
+          ;; See `(elisp)Font Lock Multiline'.
+          (put-text-property (match-beginning 0) (match-end 0) 'font-lock-multiline t)
+          (goto-char (match-beginning 0))
+          (match-end 0))
         (goto-char (match-end 0))
         (0 'kbd-mode-string-face t)))))
   "Keywords to be syntax highlighted.")
@@ -248,33 +255,6 @@ For details, see `https://github.com/kmonad/kmonad'."
   (put 'deflayer 'lisp-indent-function 1)
   (put 'defsrc   'lisp-indent-function 'defun)
   (put 'defcfg   'lisp-indent-function 0))
-
-;; HACK
-;;
-;; When specifying the keyboard layout, the configuration language accepts
-;; most special symbols verbatim (as in, one can just write @ to have that
-;; symbol bound to a key).  This includes " for double quotes, meaning the
-;; highlighting of strings has to be taken care of by the mode, which produces
-;; inconsistent behaviour, especially when moving things around.  For example,
-;; going from
-;;
-;;     (f "string")
-;;
-;; to
-;;
-;;     (f
-;;      "string")
-;;
-;; would "unhighlight" the string until one refreshes the syntax highlighting
-;; for the buffer via e.g. `font-lock-update', or wait until this happens by
-;; itself.  The advice is nothing more than a band-aid such that the latter
-;; happens more often.
-(define-advice redisplay (:after (&rest _) refresh-font-locking)
-  "Redisplay more often.
-This accommodates for example double quotes which are keycodes in
-KMonad."
-  (when (derived-mode-p 'kbd-mode)
-    (font-lock-ensure)))
 
 ;; Associate the `.kbd' ending with `kbd-mode'.
 ;;;###autoload
