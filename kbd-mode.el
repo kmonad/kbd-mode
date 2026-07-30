@@ -269,7 +269,7 @@ For details, see `https://github.com/kmonad/kmonad'."
 ;; for the buffer via e.g. `font-lock-update', or wait until this happens by
 ;; itself.  The advice is nothing more than a band-aid such that the latter
 ;; happens more often.
-(defadvice redisplay (after refresh-font-locking activate)
+(define-advice redisplay (:after (&rest _) refresh-font-locking)
   "Redisplay more often.
 This accommodates for example double quotes which are keycodes in
 KMonad."
