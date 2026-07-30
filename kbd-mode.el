@@ -3,7 +3,7 @@
 ;; Copyright 2020–2026  Tony Zorman
 ;; URL: https://github.com/kmonad/kbd-mode
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "27.1"))
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -291,12 +291,10 @@ configurations."
   (when kbd-mode-magic-focus
     (cond (kbd-mode-demo-mode
            (add-hook 'window-selection-change-functions #'kbd-mode--toggle-demo nil t)
-           (add-hook 'focus-in-hook #'kbd-mode--create-kmonad-process nil t)
-           (add-hook 'focus-out-hook #'kbd-mode--kill-demo-process nil t))
+           (add-function :after after-focus-change-function #'kbd-mode--handle-focus-change))
           (t
            (remove-hook 'window-selection-change-functions #'kbd-mode--toggle-demo t)
-           (remove-hook 'focus-in-hook #'kbd-mode--create-kmonad-process t)
-           (remove-hook 'focus-out-hook #'kbd-mode--kill-demo-process t)))))
+           (remove-function after-focus-change-function #'kbd-mode--handle-focus-change)))))
 
 ;;;; Interactive Functions
 
@@ -404,6 +402,14 @@ instance and spawn a demo process."
         (t
          (kbd-mode--start-kmonad)
          (kbd-mode--show-error))))
+
+(defun kbd-mode--handle-focus-change ()
+  "Start or kill the demo process as Emacs gains or loses focus."
+  (let ((window (selected-window)))
+    (when (eq (window-buffer window) (get-buffer "*kmonad-demo*"))
+      (if (frame-focus-state (window-frame window))
+          (kbd-mode--create-kmonad-process)
+        (kbd-mode--kill-demo-process)))))
 
 (defun kbd-mode--was-demo? ()
   "Was the previous buffer the kmonad demo buffer?"
